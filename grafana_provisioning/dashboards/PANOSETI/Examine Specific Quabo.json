@@ -74,11 +74,11 @@
               "options": {
                 "0": {
                   "index": 0,
-                  "text": "BGA"
+                  "text": "QFP"
                 },
                 "1": {
                   "index": 1,
-                  "text": "QFP"
+                  "text": "BGA"
                 }
               },
               "type": "value"
@@ -535,11 +535,11 @@
               "options": {
                 "0": {
                   "index": 0,
-                  "text": "BGA"
+                  "text": "QFP"
                 },
                 "1": {
                   "index": 1,
-                  "text": "QFP"
+                  "text": "BGA"
                 }
               },
               "type": "value"
@@ -2210,11 +2210,11 @@
                   "options": {
                     "0": {
                       "index": 0,
-                      "text": "BGA"
+                      "text": "QFP"
                     },
                     "1": {
                       "index": 1,
-                      "text": "QFP"
+                      "text": "BGA"
                     }
                   },
                   "type": "value"
