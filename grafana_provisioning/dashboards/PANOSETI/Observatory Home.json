@@ -200,7 +200,7 @@
         "text": {},
         "textMode": "name"
       },
-      "pluginVersion": "9.4.7",
+      "pluginVersion": "10.0.3",
       "targets": [
         {
           "alias": "$measurement",
@@ -345,7 +345,7 @@
           "unit": "celsius"
         }
       },
-      "pluginVersion": "9.4.7",
+      "pluginVersion": "10.0.3",
       "reverseYBuckets": false,
       "targets": [
         {
@@ -831,6 +831,146 @@
       ],
       "title": "White Rabbit SoftPLL Status",
       "type": "state-timeline"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P697866FB46CDC82E"
+      },
+      "description": "EXT_10MHz_STATUS and EXT_1PPS_STATUS from housekeeping packets.\nSee these docs for more info:\nhttps://github.com/panoseti/panoseti/wiki/Quabo-packet-interface#housekeeping-packet-64-bytes",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "lineWidth": 0,
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "red",
+                  "index": 0
+                },
+                "1": {
+                  "color": "green",
+                  "index": 1
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 20
+      },
+      "id": 19,
+      "options": {
+        "alignValue": "left",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "mergeValues": true,
+        "rowHeight": 0.9,
+        "showValue": "auto",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.0.3",
+      "targets": [
+        {
+          "alias": "$m $col",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P697866FB46CDC82E"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "QUABO_1016",
+          "orderByTime": "ASC",
+          "policy": "$observatory",
+          "query": "SELECT last(\"EXT_1PPS_STATUS\") as \"1PPS\" FROM /QUABO_\\d+/ WHERE  \"observatory\" = '$observatory' AND $timeFilter AND BOARDLOC%4=0  GROUP BY time($__interval) ",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "$m $col",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P697866FB46CDC82E"
+          },
+          "hide": false,
+          "query": "SELECT last(\"EXT_10MHz_STATUS\") as \"10MHz\" FROM /QUABO_\\d+/ WHERE  \"observatory\" = '$observatory' AND $timeFilter AND BOARDLOC%4=0  GROUP BY time($__interval) ",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series"
+        }
+      ],
+      "title": "10MHz and 1PPS Status",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "/QUABO_*/",
+            "renamePattern": "Q"
+          }
+        }
+      ],
+      "type": "state-timeline"
     }
   ],
   "refresh": "5s",
@@ -846,8 +986,8 @@
       {
         "current": {
           "selected": false,
-          "text": "Lick",
-          "value": "Lick"
+          "text": "UCB_lab",
+          "value": "UCB_lab"
         },
         "datasource": {
           "type": "influxdb",
@@ -880,6 +1020,6 @@
   "timezone": "",
   "title": "Observatory Home",
   "uid": "4aCoY-rnz",
-  "version": 14,
+  "version": 2,
   "weekStart": ""
 }
