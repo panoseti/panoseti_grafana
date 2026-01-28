@@ -118,7 +118,7 @@
         "text": {},
         "textMode": "value_and_name"
       },
-      "pluginVersion": "9.4.7",
+      "pluginVersion": "10.0.3",
       "targets": [
         {
           "alias": "Board Loc",
@@ -251,7 +251,7 @@
         ]
       },
       "gridPos": {
-        "h": 5,
+        "h": 7,
         "w": 9,
         "x": 2,
         "y": 0
@@ -322,15 +322,39 @@
           "resultFormat": "time_series"
         },
         {
-          "alias": "Status Level",
+          "alias": "10 MHz Status",
           "datasource": {
             "type": "influxdb",
             "uid": "P697866FB46CDC82E"
           },
           "hide": false,
+          "query": "SELECT last(\"EXT_10MHz_STATUS\") FROM \"$quabo\" WHERE  \"observatory\" = '$observatory' AND $timeFilter AND BOARDLOC%4=0 GROUP BY time($__interval) ",
+          "rawQuery": true,
+          "refId": "F",
+          "resultFormat": "time_series"
+        },
+        {
+          "alias": "1 PPS Status",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P697866FB46CDC82E"
+          },
+          "hide": false,
+          "query": "SELECT last(\"EXT_1PPS_STATUS\") FROM \"$quabo\" WHERE  \"observatory\" = '$observatory' AND $timeFilter AND BOARDLOC%4=0 GROUP BY time($__interval) ",
+          "rawQuery": true,
+          "refId": "G",
+          "resultFormat": "time_series"
+        },
+        {
+          "alias": "Status Level",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P697866FB46CDC82E"
+          },
+          "hide": true,
           "query": "SELECT last(\"AGG_STATUS_LEVEL\")\nFROM $quabo\nWHERE \"observatory\" = '$observatory' AND \"datatype\"='housekeeping' AND $timeFilter\nGROUP BY time($__interval), \"UID\" fill(null)",
           "rawQuery": true,
-          "refId": "E",
+          "refId": "H",
           "resultFormat": "time_series"
         }
       ],
@@ -579,7 +603,7 @@
         "text": {},
         "textMode": "value_and_name"
       },
-      "pluginVersion": "9.4.7",
+      "pluginVersion": "10.0.3",
       "targets": [
         {
           "alias": "Firmware version",
@@ -632,10 +656,10 @@
       },
       "description": "Record of status logs",
       "gridPos": {
-        "h": 6,
+        "h": 4,
         "w": 9,
         "x": 2,
-        "y": 5
+        "y": 7
       },
       "id": 37,
       "options": {
@@ -730,7 +754,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.4.7",
+      "pluginVersion": "10.0.3",
       "targets": [
         {
           "datasource": {
@@ -2350,9 +2374,9 @@
     "list": [
       {
         "current": {
-          "selected": false,
-          "text": "QUABO_7",
-          "value": "QUABO_7"
+          "selected": true,
+          "text": "QUABO_1016",
+          "value": "QUABO_1016"
         },
         "datasource": {
           "type": "influxdb",
@@ -2376,8 +2400,8 @@
       {
         "current": {
           "selected": false,
-          "text": "Lick",
-          "value": "Lick"
+          "text": "UCB_lab",
+          "value": "UCB_lab"
         },
         "datasource": {
           "type": "influxdb",
@@ -2408,6 +2432,6 @@
   "timezone": "",
   "title": "Examine Specific Quabo",
   "uid": "oVK2NBrnk",
-  "version": 16,
+  "version": 2,
   "weekStart": ""
 }
