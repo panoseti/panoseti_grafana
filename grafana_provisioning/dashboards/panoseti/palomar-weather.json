@@ -87,7 +87,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.3.1",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "groupBy": [
@@ -211,7 +211,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.3.1",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "groupBy": [
@@ -304,7 +304,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.3.1",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "groupBy": [
@@ -427,7 +427,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.3.1",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "groupBy": [
@@ -520,7 +520,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.3.1",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "groupBy": [
@@ -643,7 +643,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.3.1",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "groupBy": [
@@ -736,7 +736,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.3.1",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "datasource": {
@@ -863,7 +863,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.3.1",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "datasource": {
@@ -960,7 +960,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.3.1",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "groupBy": [
@@ -1083,7 +1083,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.3.1",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "groupBy": [
@@ -1172,7 +1172,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "12.3.1",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "groupBy": [
@@ -1295,7 +1295,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.3.1",
+      "pluginVersion": "12.2.0",
       "targets": [
         {
           "groupBy": [
