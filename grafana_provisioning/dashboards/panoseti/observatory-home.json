@@ -329,7 +329,8 @@
           "le": 1e-09
         },
         "legend": {
-          "show": false
+          "show": false,
+          "showLegend": true
         },
         "rowsFrame": {
           "layout": "auto"
@@ -867,8 +868,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -983,6 +983,7 @@
   "templating": {
     "list": [
       {
+        "allFormat": "glob",
         "datasource": {
           "type": "influxdb",
           "uid": "P697866FB46CDC82E"

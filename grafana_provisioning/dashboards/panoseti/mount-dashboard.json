@@ -18,7 +18,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 8,
   "links": [
     {
       "asDropdown": false,
@@ -1392,7 +1391,6 @@
   ],
   "preload": false,
   "refresh": "5s",
-  "schemaVersion": 42,
   "tags": [
     "Mount"
   ],
@@ -1400,12 +1398,11 @@
     "list": []
   },
   "time": {
-    "from": "now-3h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Mount Dashboard",
-  "uid": "d0378192-32e0-48b0-8775-fb90c68a72e4",
-  "version": 78
+  "uid": "d0378192-32e0-48b0-8775-fb90c68a72e4"
 }

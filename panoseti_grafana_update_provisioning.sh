@@ -6,5 +6,5 @@ DATASOURCE_PATH=/etc/grafana/provisioning/datasources
 rm -r $DASHBOARD_PATH
 rm -r $DATASOURCE_PATH
 
-cp -r ./dashboards $DASHBOARD_PATH
-cp -r ./datasources $DATASOURCE_PATH
+cp -r grafana_provisioning/dashboards $DASHBOARD_PATH
+cp -r grafana_provisioning/datasources $DATASOURCE_PATH

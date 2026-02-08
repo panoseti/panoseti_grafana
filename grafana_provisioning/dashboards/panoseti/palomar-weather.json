@@ -18,7 +18,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 9,
   "links": [
     {
       "asDropdown": false,
@@ -1340,7 +1339,6 @@
     }
   ],
   "preload": false,
-  "schemaVersion": 42,
   "tags": [
     "Weather"
   ],
@@ -1348,12 +1346,12 @@
     "list": []
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Palomar Weather",
   "uid": "adxjzjl",
-  "version": 19
+  "refresh": "5s"
 }
