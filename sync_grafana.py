@@ -1,29 +1,55 @@
 #!/usr/bin/env python3
+"""
+Grafana Dashboard Sync Tool
+---------------------------
+Synchronizes dashboards from a live Grafana instance back to local JSON files
+for Git version control. Supports cleaning metadata (ids, versions) and
+enforcing defaults (time ranges) to prevent environment drift.
+"""
+
 import os
 import json
 import requests
 import argparse
 import difflib
 import sys
+from typing import Dict, List, Any, Optional
 from slugify import slugify  # pip install python-slugify
 
 # --- CONFIGURATION ---
 DEFAULT_URL = "http://localhost:3000"
-DEFAULT_DIR = "./dashboards"
+DEFAULT_DIR = "./grafana_provisioning/dashboards"
 IGNORE_FIELDS = ['id', 'version', 'iteration', 'orgId', 'schemaVersion', 'from', 'to', 'updated']
 
 
 class GrafanaSync:
-    def __init__(self, url, key, output_dir, dry_run=False, show_diff=False):
+    """
+    Handles the synchronization logic between Grafana API and local filesystem.
+    """
+
+    def __init__(self, url: str, key: str, output_dir: str, sync: bool = False, show_diff: bool = False):
+        """
+        Initialize the sync engine.
+
+        :param url: Base URL of Grafana (e.g. http://localhost:3000)
+        :param key: Service Account Token / API Key
+        :param output_dir: Local directory to store JSON files
+        :param sync: If True, write changes to disk. If False, dry-run only.
+        :param show_diff: If True, print line-by-line diffs to stdout.
+        """
         self.url = url.rstrip('/')
         self.output_dir = output_dir
-        self.dry_run = dry_run
+        self.sync = sync
         self.show_diff = show_diff
         self.headers = {"Authorization": f"Bearer {key}"}
         self.local_file_map = self._index_local_files()
+        self.changes_detected = False
 
-    def _index_local_files(self):
-        """Map UIDs to existing file paths."""
+    def _index_local_files(self) -> Dict[str, str]:
+        """
+        Scans the output directory to map Dashboard UIDs to existing file paths.
+        This allows us to update files in-place even if they are moved/renamed.
+        """
         file_map = {}
         if not os.path.exists(self.output_dir):
             return file_map
@@ -36,50 +62,51 @@ class GrafanaSync:
                             data = json.load(f)
                             if 'uid' in data:
                                 file_map[data['uid']] = path
-                    except:
+                    except Exception:
                         pass
         return file_map
 
-    def clean_dashboard(self, dash):
-        # 1. Remove Noisy Metadata (Standard)
+    def clean_dashboard(self, dash: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Sanitizes the dashboard JSON to reduce noise in Git diffs and enforce policies.
+        """
+        # 1. Remove Noisy Metadata
         for field in IGNORE_FIELDS:
             if field in dash:
                 del dash[field]
 
-        # 2. Enforce defaults
-        # Even if you were zoomed in to a 5-minute spike when you saved,
-        # the file on disk will always reset to the standard view.
+        # 2. Enforce defaults (Policy: Always reset time range on save)
         dash['time'] = {"from": "now-30m", "to": "now"}
         dash['refresh'] = "5s"
 
-        # 3. Neutralize variables (Multi-Site Fix)
-        # This prevents "UCB_lab" from being saved in the file.
-        # When loaded at Palomar, Grafana will run the query and pick the local observatory.
+        # 3. Neutralize variables (Policy: Remove hardcoded environment selections)
         if 'templating' in dash and 'list' in dash['templating']:
             for var in dash['templating']['list']:
-                # Only clean 'query' variables (like Observatory)
                 if var.get('type') == 'query':
-
-                    # Delete 'current' selection so it defaults to the first available result
+                    # Delete 'current' selection; forces Grafana to select default on load
                     if 'current' in var:
                         del var['current']
-
-                    # Clear cached 'options' to keep the JSON file small and clean
+                    # Clear cached 'options'
                     if 'options' in var:
                         var['options'] = []
 
         return dash
 
-    def get_diff(self, old, new, filename):
+    def get_diff(self, old: Dict[str, Any], new: Dict[str, Any], filename: str) -> List[str]:
+        """Generates a unified diff list between two JSON objects."""
+        old_lines = json.dumps(old, indent=2).splitlines()
+        new_lines = json.dumps(new, indent=2).splitlines()
+
         return list(difflib.unified_diff(
-            json.dumps(old, indent=2).splitlines(),
-            json.dumps(new, indent=2).splitlines(),
+            old_lines, new_lines,
             fromfile="Local", tofile="Remote", lineterm=""
         ))
 
-    def run(self):
+    def run(self) -> None:
+        """Main execution loop."""
         try:
             # 1. Get Folder Names
+            print(f"Connecting to {self.url}...")
             r = requests.get(f"{self.url}/api/folders", headers=self.headers)
             r.raise_for_status()
             folders = {f['id']: f['title'] for f in r.json()}
@@ -89,21 +116,37 @@ class GrafanaSync:
             r = requests.get(f"{self.url}/api/search?type=dash-db&limit=5000", headers=self.headers)
             r.raise_for_status()
 
-            print(f"Syncing {len(r.json())} dashboards...")
-            for d in r.json():
+            dashboards = r.json()
+            print(f"Found {len(dashboards)} dashboards. processing...")
+
+            for d in dashboards:
                 self.process_dashboard(d, folders)
 
+            # Final Summary
+            if not self.sync:
+                print("\n" + "=" * 60)
+                if self.changes_detected:
+                    print("\033[93m[WARN] DRY RUN COMPLETE. Changes were detected but NOT saved.\033[0m")
+                    print("       Run with \033[1m--sync\033[0m to apply these changes to disk.")
+                else:
+                    print("\033[92m[OK] DRY RUN COMPLETE. No changes detected.\033[0m")
+                print("=" * 60)
+            else:
+                if self.changes_detected:
+                    print(f"\n\033[92m[SUCCESS] Sync complete.\033[0m")
+
         except Exception as e:
-            print(f"[ERROR] {e}")
+            print(f"\033[91m[ERROR] {e}\033[0m")
             sys.exit(1)
 
-    def process_dashboard(self, summary, folders):
+    def process_dashboard(self, summary: Dict[str, Any], folders: Dict[int, str]) -> None:
         uid = summary['uid']
         title = summary['title']
 
         # 1. Fetch Remote
         r = requests.get(f"{self.url}/api/dashboards/uid/{uid}", headers=self.headers)
-        if r.status_code != 200: return
+        if r.status_code != 200:
+            return
         remote_dash = self.clean_dashboard(r.json()['dashboard'])
 
         # 2. Determine Ideal Path (Sluggified)
@@ -113,6 +156,7 @@ class GrafanaSync:
 
         current_path = self.local_file_map.get(uid)
         is_new = current_path is None
+        # Check if file needs renaming (only if we have a current path)
         is_rename = current_path and (os.path.abspath(current_path) != os.path.abspath(ideal_path))
 
         # 3. Read Local Content
@@ -125,25 +169,29 @@ class GrafanaSync:
         diff = self.get_diff(local_dash, remote_dash, ideal_filename)
 
         if not diff and not is_rename:
-            return  # Nothing to do
+            return  # Sync
+
+        self.changes_detected = True
 
         # 5. Execute Changes
         if is_rename:
-            print(f"\n[RENAME] {current_path} -> {ideal_path}")
-            if not self.dry_run:
+            print(f"\n\033[96m[RENAME]\033[0m {current_path} -> {ideal_path}")
+            if self.sync:
                 if os.path.exists(current_path):
-                    os.remove(current_path)  # Delete old file
+                    os.remove(current_path)
 
         if diff:
-            action = "[NEW]" if is_new else "[MODIFIED]"
+            action = "\033[92m[NEW]\033[0m" if is_new else "\033[93m[MODIFIED]\033[0m"
             print(f"\n{action} {ideal_path}")
-            if self.show_diff or self.dry_run:
+
+            # Show diff if requested OR if we are in dry-run mode (implicit diff)
+            if self.show_diff or not self.sync:
                 for line in diff:
                     if line.startswith('---') or line.startswith('+++'): continue
                     color = "\033[92m" if line.startswith('+') else "\033[91m" if line.startswith('-') else "\033[0m"
                     print(f"{color}{line}\033[0m")
 
-        if not self.dry_run:
+        if self.sync:
             os.makedirs(os.path.dirname(ideal_path), exist_ok=True)
             with open(ideal_path, 'w') as f:
                 json.dump(remote_dash, f, indent=2)
@@ -151,17 +199,24 @@ class GrafanaSync:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--key", help="Grafana Service Account Token")
-    parser.add_argument("--url", default=DEFAULT_URL)
-    parser.add_argument("--dir", default=DEFAULT_DIR)
-    parser.add_argument("--dry-run", action="store_true")
-    parser.add_argument("--diff", action="store_true")
+    parser = argparse.ArgumentParser(
+        description="Sync Grafana Dashboards to Local Git Repo",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+    parser.add_argument("--key", help="Grafana Service Account Token (or set GRAFANA_API_KEY env var)")
+    parser.add_argument("--url", default=DEFAULT_URL, help="Grafana URL")
+    parser.add_argument("--dir", default=DEFAULT_DIR, help="Output directory for JSON files")
+
+    # CHANGED: Default is False (store_true makes it True only if flag is present)
+    parser.add_argument("--sync", action="store_true", help="Write changes to disk (Enable Save Mode)")
+
+    parser.add_argument("--diff", action="store_true", help="Show line-by-line JSON diffs")
+
     args = parser.parse_args()
 
     key = args.key or os.getenv("GRAFANA_API_KEY")
     if not key:
-        print("Set GRAFANA_API_KEY env var.")
+        print("\033[91mError: Missing API Key. Provide --key or set GRAFANA_API_KEY environment variable.\033[0m")
         sys.exit(1)
 
-    GrafanaSync(args.url, key, args.dir, args.dry_run, args.diff).run()
+    GrafanaSync(args.url, key, args.dir, args.sync, args.diff).run()
