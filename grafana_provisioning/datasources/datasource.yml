@@ -1,6 +1,7 @@
 apiVersion: 1
 
 datasources:
+  # InfluxDB - Production
   - name: "panoseti-influxdb"
     type: influxdb
     database: metadata
@@ -9,3 +10,17 @@ datasources:
     url: http://localhost:8086
     isDefault: true
     editable: false
+  # InfluxDB - Development / experimental
+  - name: "panoseti-influxdb-dev"
+    type: influxdb
+    database: dev_metadata
+    url: http://localhost:8086
+    editable: false
+    # Loki - Production logging
+  - name: "panoseti-loki"
+    type: loki
+    url: http://localhost:3100
+    access: proxy
+    editable: false
+    jsonData:
+      maxLines: 1000
