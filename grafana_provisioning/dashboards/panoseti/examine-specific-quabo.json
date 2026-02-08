@@ -226,11 +226,6 @@
                         "index": 3,
                         "text": "ok"
                       },
-                      "8": {
-                        "color": "blue",
-                        "index": 2,
-                        "text": "info"
-                      },
                       "16": {
                         "color": "orange",
                         "index": 1,
@@ -240,6 +235,11 @@
                         "color": "red",
                         "index": 0,
                         "text": "crit"
+                      },
+                      "8": {
+                        "color": "blue",
+                        "index": 2,
+                        "text": "info"
                       }
                     },
                     "type": "value"
@@ -2365,7 +2365,6 @@
   ],
   "refresh": "5s",
   "revision": 1,
-  "schemaVersion": 38,
   "style": "dark",
   "tags": [
     "Quabo"
@@ -2373,11 +2372,6 @@
   "templating": {
     "list": [
       {
-        "current": {
-          "selected": true,
-          "text": "QUABO_1016",
-          "value": "QUABO_1016"
-        },
         "datasource": {
           "type": "influxdb",
           "uid": "P697866FB46CDC82E"
@@ -2398,11 +2392,6 @@
         "type": "query"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "UCB_lab",
-          "value": "UCB_lab"
-        },
         "datasource": {
           "type": "influxdb",
           "uid": "P697866FB46CDC82E"
@@ -2432,6 +2421,5 @@
   "timezone": "",
   "title": "Examine Specific Quabo",
   "uid": "oVK2NBrnk",
-  "version": 2,
   "weekStart": ""
 }

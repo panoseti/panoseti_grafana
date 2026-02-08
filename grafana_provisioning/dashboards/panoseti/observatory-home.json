@@ -93,11 +93,6 @@
                   "index": 6,
                   "text": "ok"
                 },
-                "8": {
-                  "color": "blue",
-                  "index": 5,
-                  "text": "info"
-                },
                 "16": {
                   "color": "orange",
                   "index": 4,
@@ -107,6 +102,11 @@
                   "color": "red",
                   "index": 3,
                   "text": "crit"
+                },
+                "8": {
+                  "color": "blue",
+                  "index": 5,
+                  "text": "info"
                 }
               },
               "type": "value"
@@ -326,7 +326,7 @@
           "color": "rgba(255,0,255,0.7)"
         },
         "filterValues": {
-          "le": 1e-9
+          "le": 1e-09
         },
         "legend": {
           "show": false
@@ -975,7 +975,6 @@
   ],
   "refresh": "5s",
   "revision": 1,
-  "schemaVersion": 38,
   "style": "dark",
   "tags": [
     "Overview",
@@ -984,11 +983,6 @@
   "templating": {
     "list": [
       {
-        "current": {
-          "selected": false,
-          "text": "UCB_lab",
-          "value": "UCB_lab"
-        },
         "datasource": {
           "type": "influxdb",
           "uid": "P697866FB46CDC82E"
@@ -1020,6 +1014,5 @@
   "timezone": "",
   "title": "Observatory Home",
   "uid": "4aCoY-rnz",
-  "version": 2,
   "weekStart": ""
 }
