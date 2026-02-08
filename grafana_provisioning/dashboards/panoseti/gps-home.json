@@ -25,8 +25,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 5,
-  "iteration": 1657836743408,
   "links": [
     {
       "asDropdown": false,
@@ -996,8 +994,7 @@
       "type": "stat"
     }
   ],
-  "refresh": false,
-  "schemaVersion": 36,
+  "refresh": "5s",
   "style": "dark",
   "tags": [
     "GPS",
@@ -1006,11 +1003,6 @@
   "templating": {
     "list": [
       {
-        "current": {
-          "selected": false,
-          "text": "test",
-          "value": "test"
-        },
         "datasource": {
           "type": "influxdb",
           "uid": "P697866FB46CDC82E"
@@ -1040,6 +1032,5 @@
   "timezone": "",
   "title": "GPS Home",
   "uid": "uGFNmE9nk",
-  "version": 1,
   "weekStart": ""
 }
