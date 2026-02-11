@@ -18,8 +18,8 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 11,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
       "datasource": {
@@ -32,13 +32,11 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -47,7 +45,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -55,7 +52,6 @@
               "type": "linear"
             },
             "showPoints": "auto",
-            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -71,7 +67,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": 0
+                "value": null
               },
               {
                 "color": "red",
@@ -84,7 +80,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 8,
         "x": 0,
         "y": 0
       },
@@ -129,7 +125,6 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -155,7 +150,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": 0
+                "value": null
               }
             ]
           }
@@ -163,9 +158,9 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 16,
-        "w": 12,
-        "x": 12,
+        "h": 6,
+        "w": 16,
+        "x": 8,
         "y": 0
       },
       "id": 4,
@@ -200,13 +195,50 @@
           },
           "direction": "backward",
           "editorMode": "builder",
-          "expr": "sum by(level) (rate({host=\"localhost\"} |= `` [$__auto]))",
+          "expr": "sum by(level) (rate({host=\"panoseti-dfs0\"} |= `` [$__interval]))",
           "queryType": "range",
           "refId": "A"
         }
       ],
       "title": "Loki Demo: Logging Timeseries ",
       "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "PF86D7EBF2ACE0720"
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 16,
+        "x": 8,
+        "y": 6
+      },
+      "id": 7,
+      "options": {
+        "dedupStrategy": "signature",
+        "enableLogDetails": false,
+        "prettifyLogMessage": true,
+        "showCommonLabels": true,
+        "showLabels": false,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": false
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "PF86D7EBF2ACE0720"
+          },
+          "editorMode": "builder",
+          "expr": "{host=~\"panoseti\"} |~ `.` | json thread=\"MainThread\"",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Log Timeseries Demo",
+      "type": "logs"
     },
     {
       "datasource": {
@@ -219,13 +251,11 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -234,7 +264,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -242,7 +271,6 @@
               "type": "linear"
             },
             "showPoints": "auto",
-            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -258,7 +286,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": 0
+                "value": null
               },
               {
                 "color": "red",
@@ -271,7 +299,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 8,
         "x": 0,
         "y": 8
       },
@@ -316,13 +344,11 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -331,7 +357,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -339,7 +364,6 @@
               "type": "linear"
             },
             "showPoints": "auto",
-            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -355,7 +379,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": 0
+                "value": null
               },
               {
                 "color": "red",
@@ -368,7 +392,7 @@
       },
       "gridPos": {
         "h": 9,
-        "w": 12,
+        "w": 8,
         "x": 0,
         "y": 16
       },
@@ -401,11 +425,102 @@
       ],
       "title": "metadata (Production DB) - strict schema",
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "PF86D7EBF2ACE0720"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 16,
+        "x": 8,
+        "y": 16
+      },
+      "id": 5,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "PF86D7EBF2ACE0720"
+          },
+          "editorMode": "builder",
+          "expr": "rate({host=~\"panoseti\"} [5m])",
+          "key": "Q-abceb966-3688-4588-9bc7-6267d43e4909-0",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Log Timeseries Demo",
+      "type": "timeseries"
     }
   ],
-  "preload": false,
   "refresh": "5s",
-  "schemaVersion": 42,
+  "style": "dark",
   "tags": [],
   "templating": {
     "list": []
@@ -418,5 +533,5 @@
   "timezone": "America/Los_Angeles",
   "title": "Telemetry Service Demo",
   "uid": "be2afd58-ec81-4f50-b404-a0f7f2869f92",
-  "version": 1
+  "weekStart": ""
 }

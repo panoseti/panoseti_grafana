@@ -207,8 +207,8 @@
         ]
       },
       "gridPos": {
-        "h": 14,
-        "w": 15,
+        "h": 18,
+        "w": 3,
         "x": 0,
         "y": 0
       },
@@ -324,9 +324,9 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 9,
-        "x": 15,
+        "h": 7,
+        "w": 8,
+        "x": 3,
         "y": 0
       },
       "heatmap": {},
@@ -357,7 +357,8 @@
           "le": 1e-09
         },
         "legend": {
-          "show": false
+          "show": false,
+          "showLegend": true
         },
         "rowsFrame": {
           "layout": "auto"
@@ -442,429 +443,6 @@
         "type": "influxdb",
         "uid": "P697866FB46CDC82E"
       },
-      "description": "The plot shows (-1) x (bias voltage) for each of the 4 detector arrays on every active Quabo.",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "points",
-            "fillOpacity": 1,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineStyle": {
-              "fill": "solid"
-            },
-            "lineWidth": 1,
-            "pointSize": 2,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "volt"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 12,
-        "w": 9,
-        "x": 15,
-        "y": 8
-      },
-      "id": 18,
-      "options": {
-        "legend": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "9.4.7",
-      "targets": [
-        {
-          "alias": "",
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P697866FB46CDC82E"
-          },
-          "hide": false,
-          "query": "SELECT -last(HVMON0), -last(HVMON1), -last(HVMON2), -last(HVMON3)\nFROM /QUABO_.*/\nWHERE \"observatory\" = '$observatory' AND \"datatype\"='housekeeping' AND $timeFilter\nGROUP BY time($__interval)",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series"
-        }
-      ],
-      "title": "Detector High-Voltage",
-      "transformations": [
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "QUABO_(\\d+).last",
-            "renamePattern": "Q$1.HVMON0"
-          }
-        },
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "QUABO_(\\d+).last_(\\d+)",
-            "renamePattern": "Q$1.HVMON$2"
-          }
-        }
-      ],
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "P697866FB46CDC82E"
-      },
-      "description": "Timeline of GPS Status metadata.",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "fixed"
-          },
-          "custom": {
-            "fillOpacity": 70,
-            "lineWidth": 0,
-            "spanNulls": 15000
-          },
-          "links": [],
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 5,
-        "x": 0,
-        "y": 14
-      },
-      "id": 8,
-      "links": [
-        {
-          "title": "GPS Home",
-          "url": "/d/uGFNmE9nk/gps-home?from=${__from}&to=${__to}&var-quabo=${__series.name}&var-observatory=${observatory}"
-        }
-      ],
-      "maxDataPoints": 100,
-      "options": {
-        "alignValue": "center",
-        "legend": {
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
-        },
-        "mergeValues": true,
-        "rowHeight": 0.9,
-        "showValue": "auto",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "9.0.0-beta2",
-      "targets": [
-        {
-          "alias": "",
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P697866FB46CDC82E"
-          },
-          "query": "SELECT last(RECEIVERMODE), last(GPSDECODINGSTATUS), last(DISCIPLININGMODE), last(DISCIPLININGACTIVITY)\nFROM GPSSUPP \nWHERE \"observatory\" = '$observatory' AND \"datatype\"='GPS' AND $timeFilter\nGROUP BY time($__interval) fill(null)",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series"
-        }
-      ],
-      "title": "GPS Receiver Status",
-      "transformations": [
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": ".*last",
-            "renamePattern": "Receiver mode"
-          }
-        },
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": ".*last_1",
-            "renamePattern": "Decoding Status"
-          }
-        },
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": ".*last_2",
-            "renamePattern": "Disciplining Mode"
-          }
-        },
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": ".*last_3",
-            "renamePattern": "Disciplining Activity"
-          }
-        }
-      ],
-      "type": "state-timeline"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "P697866FB46CDC82E"
-      },
-      "description": "Power strip status",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "fixed"
-          },
-          "custom": {
-            "fillOpacity": 70,
-            "lineWidth": 0,
-            "spanNulls": 10000
-          },
-          "mappings": [
-            {
-              "options": {
-                "OFF": {
-                  "color": "red",
-                  "index": 1,
-                  "text": "OFF"
-                },
-                "ON": {
-                  "color": "green",
-                  "index": 0,
-                  "text": "ON"
-                }
-              },
-              "type": "value"
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 5,
-        "x": 5,
-        "y": 14
-      },
-      "id": 16,
-      "options": {
-        "alignValue": "left",
-        "legend": {
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "mergeValues": true,
-        "rowHeight": 0.9,
-        "showValue": "auto",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "alias": "$measurement",
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P697866FB46CDC82E"
-          },
-          "query": "SELECT last(POWER)\nFROM /WPS(.*)/\nWHERE \"observatory\"='$observatory' AND \"datatype\"='outlet' AND $timeFilter\nGROUP BY time($__interval) fill(null)",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series"
-        }
-      ],
-      "title": "WPS Status",
-      "transformations": [
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "WPS_(.*)",
-            "renamePattern": "$1"
-          }
-        }
-      ],
-      "type": "state-timeline"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "P697866FB46CDC82E"
-      },
-      "description": "Timeline of SOFTPLL status for each active WRS.",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "fixed"
-          },
-          "custom": {
-            "fillOpacity": 70,
-            "lineWidth": 0,
-            "spanNulls": 10000
-          },
-          "mappings": [
-            {
-              "options": {
-                "0": {
-                  "color": "red",
-                  "index": 0,
-                  "text": "UNLOCKED"
-                },
-                "1": {
-                  "color": "green",
-                  "index": 1,
-                  "text": "LOCKED"
-                }
-              },
-              "type": "value"
-            },
-            {
-              "options": {
-                "pattern": "/[^0-1]/",
-                "result": {
-                  "color": "orange",
-                  "index": 2,
-                  "text": "WEIRD STATUS"
-                }
-              },
-              "type": "regex"
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 5,
-        "x": 10,
-        "y": 14
-      },
-      "id": 12,
-      "maxDataPoints": 100,
-      "options": {
-        "alignValue": "left",
-        "legend": {
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
-        },
-        "mergeValues": true,
-        "rowHeight": 0.9,
-        "showValue": "auto",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "9.0.0-beta2",
-      "targets": [
-        {
-          "alias": "$measurement",
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P697866FB46CDC82E"
-          },
-          "query": "SELECT last(\"SOFTPLL\")\nFROM /WRSWITCH.*/\nWHERE \"observatory\" = '$observatory' AND \"datatype\"='whiterabbit' AND $timeFilter\nGROUP BY time($__interval) fill(null)",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series"
-        }
-      ],
-      "title": "White Rabbit SoftPLL Status",
-      "type": "state-timeline"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "P697866FB46CDC82E"
-      },
       "description": "EXT_10MHz_STATUS and EXT_1PPS_STATUS from housekeeping packets.\nSee these docs for more info:\nhttps://github.com/panoseti/panoseti/wiki/Quabo-packet-interface#housekeeping-packet-64-bytes",
       "fieldConfig": {
         "defaults": {
@@ -908,10 +486,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 10,
-        "w": 24,
-        "x": 0,
-        "y": 20
+        "h": 7,
+        "w": 13,
+        "x": 11,
+        "y": 0
       },
       "id": 19,
       "options": {
@@ -999,6 +577,555 @@
         }
       ],
       "type": "state-timeline"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P697866FB46CDC82E"
+      },
+      "description": "The plot shows (-1) x (bias voltage) for each of the 4 detector arrays on every active Quabo.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 1,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "stepBefore",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 2,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "volt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 3,
+        "y": 7
+      },
+      "id": 18,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "alias": "",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P697866FB46CDC82E"
+          },
+          "hide": false,
+          "query": "SELECT -last(HVMON0), -last(HVMON1), -last(HVMON2), -last(HVMON3)\nFROM /QUABO_.*/\nWHERE \"observatory\" = '$observatory' AND \"datatype\"='housekeeping' AND $timeFilter\nGROUP BY time($__interval)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series"
+        }
+      ],
+      "title": "Detector High-Voltage",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "QUABO_(\\d+).last",
+            "renamePattern": "Q$1.HVMON0"
+          }
+        },
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "QUABO_(\\d+).last_(\\d+)",
+            "renamePattern": "Q$1.HVMON$2"
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "PF86D7EBF2ACE0720"
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 13,
+        "x": 11,
+        "y": 7
+      },
+      "id": 20,
+      "options": {
+        "dedupStrategy": "signature",
+        "enableLogDetails": false,
+        "prettifyLogMessage": false,
+        "showCommonLabels": true,
+        "showLabels": false,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": false
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "PF86D7EBF2ACE0720"
+          },
+          "editorMode": "builder",
+          "expr": "{host=~\"panoseti\"} |~ `.` | json thread=\"MainThread\"",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Loki Demo: Log Messages",
+      "type": "logs"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P697866FB46CDC82E"
+      },
+      "description": "Power strip status",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "lineWidth": 0,
+            "spanNulls": 10000
+          },
+          "mappings": [
+            {
+              "options": {
+                "OFF": {
+                  "color": "red",
+                  "index": 1,
+                  "text": "OFF"
+                },
+                "ON": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "ON"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 3,
+        "y": 13
+      },
+      "id": 16,
+      "options": {
+        "alignValue": "left",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "mergeValues": true,
+        "rowHeight": 0.9,
+        "showValue": "auto",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "alias": "$measurement",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P697866FB46CDC82E"
+          },
+          "query": "SELECT last(POWER)\nFROM /WPS(.*)/\nWHERE \"observatory\"='$observatory' AND \"datatype\"='outlet' AND $timeFilter\nGROUP BY time($__interval) fill(null)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series"
+        }
+      ],
+      "title": "WPS Status",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "WPS_(.*)",
+            "renamePattern": "$1"
+          }
+        }
+      ],
+      "type": "state-timeline"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "PF86D7EBF2ACE0720"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 13,
+        "x": 11,
+        "y": 13
+      },
+      "id": 21,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "normal",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 100
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "PF86D7EBF2ACE0720"
+          },
+          "direction": "backward",
+          "editorMode": "builder",
+          "expr": "sum by(level) (rate({host=~\"panoseti\"} |= `` [$__interval]))",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Loki Demo: Log Count vs Time",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P697866FB46CDC82E"
+      },
+      "description": "Timeline of GPS Status metadata.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "lineWidth": 0,
+            "spanNulls": 15000
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 3,
+        "x": 0,
+        "y": 18
+      },
+      "id": 8,
+      "links": [
+        {
+          "title": "GPS Home",
+          "url": "/d/uGFNmE9nk/gps-home?from=${__from}&to=${__to}&var-quabo=${__series.name}&var-observatory=${observatory}"
+        }
+      ],
+      "maxDataPoints": 100,
+      "options": {
+        "alignValue": "center",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "mergeValues": true,
+        "rowHeight": 0.9,
+        "showValue": "auto",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.0.0-beta2",
+      "targets": [
+        {
+          "alias": "",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P697866FB46CDC82E"
+          },
+          "query": "SELECT last(RECEIVERMODE), last(GPSDECODINGSTATUS), last(DISCIPLININGMODE), last(DISCIPLININGACTIVITY)\nFROM GPSSUPP \nWHERE \"observatory\" = '$observatory' AND \"datatype\"='GPS' AND $timeFilter\nGROUP BY time($__interval) fill(null)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series"
+        }
+      ],
+      "title": "GPS Receiver Status",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": ".*last",
+            "renamePattern": "Receiver mode"
+          }
+        },
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": ".*last_1",
+            "renamePattern": "Decoding Status"
+          }
+        },
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": ".*last_2",
+            "renamePattern": "Disciplining Mode"
+          }
+        },
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": ".*last_3",
+            "renamePattern": "Disciplining Activity"
+          }
+        }
+      ],
+      "type": "state-timeline"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P697866FB46CDC82E"
+      },
+      "description": "Timeline of SOFTPLL status for each active WRS.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "custom": {
+            "fillOpacity": 70,
+            "lineWidth": 0,
+            "spanNulls": 10000
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "red",
+                  "index": 0,
+                  "text": "UNLOCKED"
+                },
+                "1": {
+                  "color": "green",
+                  "index": 1,
+                  "text": "LOCKED"
+                }
+              },
+              "type": "value"
+            },
+            {
+              "options": {
+                "pattern": "/[^0-1]/",
+                "result": {
+                  "color": "orange",
+                  "index": 2,
+                  "text": "WEIRD STATUS"
+                }
+              },
+              "type": "regex"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 3,
+        "y": 18
+      },
+      "id": 12,
+      "maxDataPoints": 100,
+      "options": {
+        "alignValue": "left",
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "mergeValues": true,
+        "rowHeight": 0.9,
+        "showValue": "auto",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.0.0-beta2",
+      "targets": [
+        {
+          "alias": "$measurement",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P697866FB46CDC82E"
+          },
+          "query": "SELECT last(\"SOFTPLL\")\nFROM /WRSWITCH.*/\nWHERE \"observatory\" = '$observatory' AND \"datatype\"='whiterabbit' AND $timeFilter\nGROUP BY time($__interval) fill(null)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series"
+        }
+      ],
+      "title": "White Rabbit SoftPLL Status",
+      "type": "state-timeline"
     }
   ],
   "refresh": "5s",
@@ -1011,6 +1138,7 @@
   "templating": {
     "list": [
       {
+        "allFormat": "glob",
         "datasource": {
           "type": "influxdb",
           "uid": "P697866FB46CDC82E"
