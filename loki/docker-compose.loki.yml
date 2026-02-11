@@ -1,11 +1,11 @@
-#networks:
-#  panoseti-net:
-#    driver: bridge
-#
+networks:
+  panoseti-net:
+    driver: bridge
+
 services:
   loki:
-    image: grafana/loki:3.6.0
-    container_name: loki_logger
+    image: docker.io/grafana/loki:3.6.0
+      #container_name: loki_logger
     # Run as the 'loki' user (UID 10001) for security
     user: "10001:10001"
     ports:
@@ -14,7 +14,7 @@ services:
       - "-config.file=/etc/loki/local-config.yaml"
 #      - "-print-config-stderr"
     volumes:
-      - ./loki-data:/loki
+      - /mnt/testdata/loki-data:/loki
     networks:
       - panoseti-net
 #    restart: unless-stopped
