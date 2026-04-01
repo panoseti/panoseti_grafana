@@ -4,7 +4,7 @@ networks:
 
 services:
   loki:
-    image: docker.io/grafana/loki:3.6.0
+    image: docker.io/grafana/loki:3.7.0
       #container_name: loki_logger
     # Run as the 'loki' user (UID 10001) for security
     user: "10001:10001"
