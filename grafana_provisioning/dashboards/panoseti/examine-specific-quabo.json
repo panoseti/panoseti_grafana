@@ -1258,7 +1258,7 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "alias": "HVMON3",
+          "alias": "",
           "datasource": {
             "type": "influxdb",
             "uid": "P697866FB46CDC82E"
@@ -2641,5 +2641,5 @@
   "timezone": "",
   "title": "Examine Specific Quabo",
   "uid": "oVK2NBrnk",
-  "version": 1
+  "version": 2
 }

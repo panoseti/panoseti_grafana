@@ -901,14 +901,7 @@
           "id": "renameByRegex",
           "options": {
             "regex": "QUABO_(\\d+).last",
-            "renamePattern": "Q$1.HVMON0"
-          }
-        },
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "QUABO_(\\d+).last_(\\d+)",
-            "renamePattern": "Q$1.HVMON$2"
+            "renamePattern": "Q$1.RAWHVMON"
           }
         }
       ],
@@ -1176,5 +1169,5 @@
   "timezone": "browser",
   "title": "Observatory Home",
   "uid": "4aCoY-rnz",
-  "version": 1
+  "version": 3
 }
