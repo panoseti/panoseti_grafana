@@ -25,6 +25,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 14,
   "links": [
     {
       "asDropdown": false,
@@ -100,7 +101,6 @@
       "url": ""
     }
   ],
-  "liveNow": false,
   "panels": [
     {
       "datasource": {
@@ -121,6 +121,11 @@
                   "index": 6,
                   "text": "ok"
                 },
+                "8": {
+                  "color": "blue",
+                  "index": 5,
+                  "text": "info"
+                },
                 "16": {
                   "color": "orange",
                   "index": 4,
@@ -130,11 +135,6 @@
                   "color": "red",
                   "index": 3,
                   "text": "crit"
-                },
-                "8": {
-                  "color": "blue",
-                  "index": 5,
-                  "text": "info"
                 }
               },
               "type": "value"
@@ -176,7 +176,7 @@
             "steps": [
               {
                 "color": "transparent",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -208,7 +208,7 @@
       },
       "gridPos": {
         "h": 18,
-        "w": 3,
+        "w": 9,
         "x": 0,
         "y": 0
       },
@@ -218,6 +218,7 @@
         "graphMode": "area",
         "justifyMode": "center",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -225,10 +226,12 @@
           "fields": "/.*/",
           "values": false
         },
+        "showPercentChange": false,
         "text": {},
-        "textMode": "name"
+        "textMode": "name",
+        "wideLayout": true
       },
-      "pluginVersion": "10.0.3",
+      "pluginVersion": "12.3.1",
       "targets": [
         {
           "alias": "$measurement",
@@ -294,151 +297,6 @@
       "type": "stat"
     },
     {
-      "cards": {},
-      "color": {
-        "cardColor": "#b4ff00",
-        "colorScale": "sqrt",
-        "colorScheme": "interpolateViridis",
-        "exponent": 0.5,
-        "mode": "spectrum"
-      },
-      "dataFormat": "timeseries",
-      "datasource": {
-        "type": "influxdb",
-        "uid": "P697866FB46CDC82E"
-      },
-      "description": "Heatmap of all Quabo TEMP1 metadata.",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "scaleDistribution": {
-              "type": "linear"
-            }
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 8,
-        "x": 3,
-        "y": 0
-      },
-      "heatmap": {},
-      "hideZeroBuckets": false,
-      "highlightCards": true,
-      "id": 14,
-      "legend": {
-        "show": false
-      },
-      "options": {
-        "calculate": true,
-        "calculation": {},
-        "cellGap": 2,
-        "cellValues": {},
-        "color": {
-          "exponent": 0.5,
-          "fill": "#b4ff00",
-          "mode": "scheme",
-          "reverse": false,
-          "scale": "exponential",
-          "scheme": "Viridis",
-          "steps": 128
-        },
-        "exemplars": {
-          "color": "rgba(255,0,255,0.7)"
-        },
-        "filterValues": {
-          "le": 1e-09
-        },
-        "legend": {
-          "show": false,
-          "showLegend": true
-        },
-        "rowsFrame": {
-          "layout": "auto"
-        },
-        "showValue": "never",
-        "tooltip": {
-          "show": true,
-          "yHistogram": true
-        },
-        "yAxis": {
-          "axisPlacement": "left",
-          "reverse": false,
-          "unit": "celsius"
-        }
-      },
-      "pluginVersion": "10.0.3",
-      "reverseYBuckets": false,
-      "targets": [
-        {
-          "alias": "TEMP1",
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P697866FB46CDC82E"
-          },
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "QUABO_1016",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT last(\"TEMP1\")\nFROM /QUABO_[\\d]*/\nWHERE \"observatory\"='$observatory' AND \"datatype\"='housekeeping' AND $timeFilter \nGROUP BY time($__interval) fill(none)",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "TEMP1"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "last"
-              }
-            ]
-          ],
-          "tags": []
-        }
-      ],
-      "title": "Detector Temperature Heat Map",
-      "tooltip": {
-        "show": true,
-        "showHistogram": true
-      },
-      "transformations": [],
-      "type": "heatmap",
-      "xAxis": {
-        "show": true
-      },
-      "yAxis": {
-        "format": "celsius",
-        "logBase": 1,
-        "show": true
-      },
-      "yBucketBound": "auto"
-    },
-    {
       "datasource": {
         "type": "influxdb",
         "uid": "P697866FB46CDC82E"
@@ -450,7 +308,14 @@
             "mode": "fixed"
           },
           "custom": {
+            "axisPlacement": "auto",
             "fillOpacity": 70,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
             "lineWidth": 0,
             "spanNulls": false
           },
@@ -459,11 +324,13 @@
               "options": {
                 "0": {
                   "color": "red",
-                  "index": 0
+                  "index": 0,
+                  "text": "BAD"
                 },
                 "1": {
                   "color": "green",
-                  "index": 1
+                  "index": 1,
+                  "text": "OK"
                 }
               },
               "type": "value"
@@ -474,7 +341,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -486,9 +353,9 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
-        "w": 13,
-        "x": 11,
+        "h": 6,
+        "w": 15,
+        "x": 9,
         "y": 0
       },
       "id": 19,
@@ -503,11 +370,12 @@
         "rowHeight": 0.9,
         "showValue": "auto",
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
-      "pluginVersion": "10.0.3",
+      "pluginVersion": "12.3.1",
       "targets": [
         {
           "alias": "$m $col",
@@ -583,6 +451,122 @@
         "type": "influxdb",
         "uid": "P697866FB46CDC82E"
       },
+      "description": "Heatmap of all Quabo TEMP1 metadata.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 15,
+        "x": 9,
+        "y": 6
+      },
+      "id": 14,
+      "options": {
+        "calculate": true,
+        "calculation": {},
+        "cellGap": 2,
+        "cellValues": {},
+        "color": {
+          "exponent": 0.5,
+          "fill": "#b4ff00",
+          "mode": "scheme",
+          "reverse": false,
+          "scale": "exponential",
+          "scheme": "Viridis",
+          "steps": 128
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-9
+        },
+        "legend": {
+          "show": false,
+          "showLegend": true
+        },
+        "rowsFrame": {
+          "layout": "auto"
+        },
+        "showValue": "never",
+        "tooltip": {
+          "mode": "single",
+          "showColorScale": false,
+          "yHistogram": true
+        },
+        "yAxis": {
+          "axisPlacement": "left",
+          "reverse": false,
+          "unit": "celsius"
+        }
+      },
+      "pluginVersion": "12.3.1",
+      "targets": [
+        {
+          "alias": "TEMP1",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P697866FB46CDC82E"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "QUABO_1016",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT last(\"TEMP1\")\nFROM /QUABO_[\\d]*/\nWHERE \"observatory\"='$observatory' AND \"datatype\"='housekeeping' AND $timeFilter \nGROUP BY time($__interval) fill(none)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "TEMP1"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "title": "Detector Temperature Heat Map",
+      "type": "heatmap"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P697866FB46CDC82E"
+      },
       "description": "The plot shows (-1) x (bias voltage) for each of the 4 detector arrays on every active Quabo.",
       "fieldConfig": {
         "defaults": {
@@ -590,20 +574,23 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "drawStyle": "line",
+            "barWidthFactor": 0.6,
+            "drawStyle": "points",
             "fillOpacity": 1,
-            "gradientMode": "opacity",
+            "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "stepBefore",
+            "insertNulls": false,
+            "lineInterpolation": "linear",
             "lineStyle": {
               "fill": "solid"
             },
@@ -613,7 +600,8 @@
               "type": "linear"
             },
             "showPoints": "never",
-            "spanNulls": true,
+            "showValues": false,
+            "spanNulls": false,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -628,7 +616,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -642,9 +630,9 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 8,
-        "x": 3,
-        "y": 7
+        "w": 15,
+        "x": 9,
+        "y": 12
       },
       "id": 18,
       "options": {
@@ -657,11 +645,12 @@
           "showLegend": false
         },
         "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
         }
       },
-      "pluginVersion": "9.4.7",
+      "pluginVersion": "12.3.1",
       "targets": [
         {
           "alias": "",
@@ -697,72 +686,53 @@
     },
     {
       "datasource": {
-        "type": "loki",
-        "uid": "PF86D7EBF2ACE0720"
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 13,
-        "x": 11,
-        "y": 7
-      },
-      "id": 20,
-      "options": {
-        "dedupStrategy": "signature",
-        "enableLogDetails": false,
-        "prettifyLogMessage": false,
-        "showCommonLabels": true,
-        "showLabels": false,
-        "showTime": true,
-        "sortOrder": "Descending",
-        "wrapLogMessage": false
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "PF86D7EBF2ACE0720"
-          },
-          "editorMode": "builder",
-          "expr": "{host=~\"panoseti\"} |~ `.` | json thread=\"MainThread\"",
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "Loki Demo: Log Messages",
-      "type": "logs"
-    },
-    {
-      "datasource": {
         "type": "influxdb",
         "uid": "P697866FB46CDC82E"
       },
-      "description": "Power strip status",
+      "description": "Timeline of SOFTPLL status for each active WRS.",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "fixed"
           },
           "custom": {
+            "axisPlacement": "auto",
             "fillOpacity": 70,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
             "lineWidth": 0,
             "spanNulls": 10000
           },
           "mappings": [
             {
               "options": {
-                "OFF": {
+                "0": {
                   "color": "red",
-                  "index": 1,
-                  "text": "OFF"
-                },
-                "ON": {
-                  "color": "green",
                   "index": 0,
-                  "text": "ON"
+                  "text": "UNLOCKED"
+                },
+                "1": {
+                  "color": "green",
+                  "index": 1,
+                  "text": "LOCKED"
                 }
               },
               "type": "value"
+            },
+            {
+              "options": {
+                "pattern": "/[^0-1]/",
+                "result": {
+                  "color": "orange",
+                  "index": 2,
+                  "text": "WEIRD STATUS"
+                }
+              },
+              "type": "regex"
             }
           ],
           "thresholds": {
@@ -770,7 +740,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -783,26 +753,29 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 8,
-        "x": 3,
-        "y": 13
+        "w": 9,
+        "x": 0,
+        "y": 18
       },
-      "id": 16,
+      "id": 12,
+      "maxDataPoints": 100,
       "options": {
         "alignValue": "left",
         "legend": {
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": false
         },
         "mergeValues": true,
         "rowHeight": 0.9,
         "showValue": "auto",
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "12.3.1",
       "targets": [
         {
           "alias": "$measurement",
@@ -810,49 +783,58 @@
             "type": "influxdb",
             "uid": "P697866FB46CDC82E"
           },
-          "query": "SELECT last(POWER)\nFROM /WPS(.*)/\nWHERE \"observatory\"='$observatory' AND \"datatype\"='outlet' AND $timeFilter\nGROUP BY time($__interval) fill(null)",
+          "query": "SELECT last(\"SOFTPLL\")\nFROM /WRSWITCH.*/\nWHERE \"observatory\" = '$observatory' AND \"datatype\"='whiterabbit' AND $timeFilter\nGROUP BY time($__interval) fill(null)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series"
         }
       ],
-      "title": "WPS Status",
-      "transformations": [
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "WPS_(.*)",
-            "renamePattern": "$1"
-          }
-        }
-      ],
+      "title": "White Rabbit SoftPLL Status",
       "type": "state-timeline"
     },
     {
       "datasource": {
-        "type": "loki",
-        "uid": "PF86D7EBF2ACE0720"
+        "type": "influxdb",
+        "uid": "P697866FB46CDC82E"
       },
+      "description": "The plot shows RAWHVMON for each Quabo.",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
-            "fillOpacity": 80,
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "points",
+            "fillOpacity": 1,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
             "lineWidth": 1,
+            "pointSize": 2,
             "scaleDistribution": {
               "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
             },
             "thresholdsStyle": {
               "mode": "off"
@@ -864,58 +846,73 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
               }
             ]
-          }
+          },
+          "unit": "volt"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 5,
-        "w": 13,
-        "x": 11,
-        "y": 13
+        "h": 10,
+        "w": 15,
+        "x": 9,
+        "y": 18
       },
-      "id": 21,
+      "id": 20,
       "options": {
-        "barRadius": 0,
-        "barWidth": 0.97,
-        "fullHighlight": false,
-        "groupWidth": 0.7,
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
+          "calcs": [
+            "lastNotNull"
+          ],
+          "displayMode": "table",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": false
         },
-        "orientation": "auto",
-        "showValue": "auto",
-        "stacking": "normal",
         "tooltip": {
           "hideZeros": false,
           "mode": "single",
           "sort": "none"
-        },
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 100
+        }
       },
-      "pluginVersion": "12.3.2",
+      "pluginVersion": "12.3.1",
       "targets": [
         {
+          "alias": "",
           "datasource": {
-            "type": "loki",
-            "uid": "PF86D7EBF2ACE0720"
+            "type": "influxdb",
+            "uid": "P697866FB46CDC82E"
           },
-          "direction": "backward",
-          "editorMode": "builder",
-          "expr": "sum by(level) (rate({host=~\"panoseti\"} |= `` [$__interval]))",
-          "queryType": "range",
-          "refId": "A"
+          "hide": false,
+          "query": "SELECT last(RAWHVMON)\nFROM /QUABO_.*/\nWHERE \"observatory\" = '$observatory' AND \"datatype\"='housekeeping' AND $timeFilter\nGROUP BY time($__interval)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series"
         }
       ],
-      "title": "Loki Demo: Log Count vs Time",
-      "type": "barchart"
+      "title": "RAWHVMON",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "QUABO_(\\d+).last",
+            "renamePattern": "Q$1.HVMON0"
+          }
+        },
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "QUABO_(\\d+).last_(\\d+)",
+            "renamePattern": "Q$1.HVMON$2"
+          }
+        }
+      ],
+      "type": "timeseries"
     },
     {
       "datasource": {
@@ -929,7 +926,14 @@
             "mode": "fixed"
           },
           "custom": {
+            "axisPlacement": "auto",
             "fillOpacity": 70,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
             "lineWidth": 0,
             "spanNulls": 15000
           },
@@ -940,7 +944,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -952,10 +956,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
-        "w": 3,
+        "h": 5,
+        "w": 9,
         "x": 0,
-        "y": 18
+        "y": 23
       },
       "id": 8,
       "links": [
@@ -976,11 +980,12 @@
         "rowHeight": 0.9,
         "showValue": "auto",
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
-      "pluginVersion": "9.0.0-beta2",
+      "pluginVersion": "12.3.1",
       "targets": [
         {
           "alias": "",
@@ -1032,43 +1037,39 @@
         "type": "influxdb",
         "uid": "P697866FB46CDC82E"
       },
-      "description": "Timeline of SOFTPLL status for each active WRS.",
+      "description": "Power strip status",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "fixed"
           },
           "custom": {
+            "axisPlacement": "auto",
             "fillOpacity": 70,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
             "lineWidth": 0,
             "spanNulls": 10000
           },
           "mappings": [
             {
               "options": {
-                "0": {
+                "OFF": {
                   "color": "red",
-                  "index": 0,
-                  "text": "UNLOCKED"
-                },
-                "1": {
-                  "color": "green",
                   "index": 1,
-                  "text": "LOCKED"
+                  "text": "OFF"
+                },
+                "ON": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "ON"
                 }
               },
               "type": "value"
-            },
-            {
-              "options": {
-                "pattern": "/[^0-1]/",
-                "result": {
-                  "color": "orange",
-                  "index": 2,
-                  "text": "WEIRD STATUS"
-                }
-              },
-              "type": "regex"
             }
           ],
           "thresholds": {
@@ -1076,7 +1077,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -1089,28 +1090,28 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 8,
-        "x": 3,
-        "y": 18
+        "w": 9,
+        "x": 0,
+        "y": 28
       },
-      "id": 12,
-      "maxDataPoints": 100,
+      "id": 16,
       "options": {
         "alignValue": "left",
         "legend": {
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": false
+          "showLegend": true
         },
         "mergeValues": true,
         "rowHeight": 0.9,
         "showValue": "auto",
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
-      "pluginVersion": "9.0.0-beta2",
+      "pluginVersion": "12.3.1",
       "targets": [
         {
           "alias": "$measurement",
@@ -1118,19 +1119,28 @@
             "type": "influxdb",
             "uid": "P697866FB46CDC82E"
           },
-          "query": "SELECT last(\"SOFTPLL\")\nFROM /WRSWITCH.*/\nWHERE \"observatory\" = '$observatory' AND \"datatype\"='whiterabbit' AND $timeFilter\nGROUP BY time($__interval) fill(null)",
+          "query": "SELECT last(POWER)\nFROM /WPS(.*)/\nWHERE \"observatory\"='$observatory' AND \"datatype\"='outlet' AND $timeFilter\nGROUP BY time($__interval) fill(null)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series"
         }
       ],
-      "title": "White Rabbit SoftPLL Status",
+      "title": "WPS Status",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "WPS_(.*)",
+            "renamePattern": "$1"
+          }
+        }
+      ],
       "type": "state-timeline"
     }
   ],
+  "preload": false,
   "refresh": "5s",
-  "revision": 1,
-  "style": "dark",
+  "schemaVersion": 42,
   "tags": [
     "Overview",
     "Home"
@@ -1138,23 +1148,19 @@
   "templating": {
     "list": [
       {
-        "allFormat": "glob",
         "datasource": {
           "type": "influxdb",
           "uid": "P697866FB46CDC82E"
         },
         "definition": "SHOW TAG VALUES ON \"metadata\"  WITH KEY = \"observatory\"",
         "description": "Observatory name.",
-        "hide": 0,
         "includeAll": false,
         "label": "Observatory",
-        "multi": false,
         "name": "observatory",
         "options": [],
         "query": "SHOW TAG VALUES ON \"metadata\"  WITH KEY = \"observatory\"",
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
         "sort": 5,
         "type": "query"
       }
@@ -1167,8 +1173,8 @@
   "timepicker": {
     "nowDelay": ""
   },
-  "timezone": "",
+  "timezone": "browser",
   "title": "Observatory Home",
   "uid": "4aCoY-rnz",
-  "weekStart": ""
+  "version": 1
 }
