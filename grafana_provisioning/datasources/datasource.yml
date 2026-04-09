@@ -15,12 +15,10 @@ datasources:
     type: influxdb
     database: dev_metadata
     url: http://localhost:8086
-    editable: false
+    editable: true
     # Loki - Production logging
   - name: "panoseti-loki"
     type: loki
-    url: http://localhost:3100
+    url: http://loki:3100
     access: proxy
-    editable: false
-    jsonData:
-      maxLines: 1000
+    editable: true

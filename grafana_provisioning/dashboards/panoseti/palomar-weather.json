@@ -1339,6 +1339,7 @@
     }
   ],
   "preload": false,
+  "refresh": "5s",
   "tags": [
     "Weather"
   ],
@@ -1352,6 +1353,5 @@
   "timepicker": {},
   "timezone": "browser",
   "title": "Palomar Weather",
-  "uid": "adxjzjl",
-  "refresh": "5s"
+  "uid": "adxjzjl"
 }
