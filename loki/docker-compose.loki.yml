@@ -1,6 +1,3 @@
-networks:
-  panoseti-net:
-    driver: bridge
 
 services:
   loki:
@@ -8,15 +5,14 @@ services:
       #container_name: loki_logger
     # Run as the 'loki' user (UID 10001) for security
     user: "10001:10001"
-    ports:
-      - "3100:3100"
+    # ports:
+    #   - "3100:3100"
     command:
       - "-config.file=/etc/loki/local-config.yaml"
 #      - "-print-config-stderr"
     volumes:
       - /mnt/testdata/loki-data:/loki
-    networks:
-      - panoseti-net
+    network_mode: "host"
 #    restart: unless-stopped
     mem_limit: 4g
     healthcheck:

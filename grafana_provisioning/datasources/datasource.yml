@@ -19,6 +19,6 @@ datasources:
     # Loki - Production logging
   - name: "panoseti-loki"
     type: loki
-    url: http://loki:3100
+    url: http://localhost:3100
     access: proxy
     editable: true
